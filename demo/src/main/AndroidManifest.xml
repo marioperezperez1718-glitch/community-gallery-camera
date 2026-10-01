@@ -12,6 +12,12 @@
         android:label="Gallery Camera Demo"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
 
+        <provider
+            android:name=".OutputProvider"
+            android:authorities="org.community.gallerycamerademo.output"
+            android:exported="false"
+            android:grantUriPermissions="true" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

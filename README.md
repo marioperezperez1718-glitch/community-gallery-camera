@@ -1,38 +1,49 @@
-# Community Gallery Camera V1
+# Community Gallery Camera V1.1
 
-Proyecto Android de prueba para Samsung con dos aplicaciones:
+Proyecto Android para Samsung con dos aplicaciones de prueba:
 
-- **Gallery Camera**: importa imágenes a una galería privada y puede devolver una imagen a una app de prueba mediante un flujo de captura explícito.
-- **Gallery Camera Demo**: solicita una imagen, abre Gallery Camera y muestra el resultado recibido.
+- **Gallery Camera**: importa imágenes a una galería privada.
+- **Gallery Camera Demo**: prueba el flujo explícito de captura compatible entre apps controladas.
 
-## Cómo obtener los APK
+## Compatibilidad añadida en V1.1
+
+Gallery Camera ahora ofrece sus imágenes de dos formas estándar de Android:
+
+1. **Storage Access Framework / DocumentsProvider**  
+   Cuando una app usa `ACTION_OPEN_DOCUMENT`, el selector de archivos de Android puede mostrar **Gallery Camera** como una fuente de imágenes.
+
+2. **GET_CONTENT / PICK**  
+   Cuando una app usa `ACTION_GET_CONTENT` o `ACTION_PICK` con `image/*`, **Gallery Camera** puede aparecer como opción para elegir una imagen.
+
+La selección siempre requiere una acción del usuario.
+
+## Captura de cámara
+
+Android 11 y posteriores reservan los intents implícitos `IMAGE_CAPTURE` a cámaras preinstaladas del sistema. Por eso una APK normal no puede convertirse en sustituto universal de la cámara para todas las apps.
+
+El módulo Demo continúa usando una invocación explícita para probar el flujo de captura controlado.
+
+## APK
 
 GitHub Actions compila automáticamente:
 
 - `GalleryCamera-debug.apk`
 - `GalleryCameraDemo-debug.apk`
 
-Ve a la pestaña **Actions** del repositorio y abre la ejecución **Build Samsung APKs**. En **Artifacts** descarga el paquete generado.
+Abre la última ejecución **Build Samsung APKs** y descarga el artifact **Community-Gallery-Camera-Samsung**.
 
-## Prueba en Samsung
+## Prueba de selección general
 
-1. Instala ambos APK de la misma compilación.
-2. Abre **Gallery Camera**.
-3. Pulsa **Importar imágenes** y selecciona fotos.
-4. Abre **Gallery Camera Demo**.
-5. Pulsa **Solicitar foto**.
-6. Selecciona una imagen.
-7. La Demo mostrará el archivo recibido.
-
-Consulta `INSTALAR_EN_SAMSUNG.md` para instrucciones detalladas.
+1. Instala Gallery Camera.
+2. Importa varias imágenes.
+3. Abre una app que permita adjuntar/subir una imagen mediante el selector estándar de Android.
+4. Busca **Gallery Camera** entre las fuentes/opciones disponibles.
+5. Elige una imagen.
+6. Android devuelve un `content://` URI con permiso temporal de lectura a la app solicitante.
 
 ## Compatibilidad
 
 - minSdk: 29
 - targetSdk: 35
 - compileSdk: 35
-- Java 17
-- Kotlin 2.0.21
-- Android Gradle Plugin 8.7.3
-
-La integración de esta V1 se limita a apps de prueba/controladas que invoquen explícitamente la actividad de Gallery Camera.
+- Version: 1.1

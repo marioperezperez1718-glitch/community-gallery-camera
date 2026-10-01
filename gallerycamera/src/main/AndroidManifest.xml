@@ -10,6 +10,40 @@
         android:label="Gallery Camera"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
 
+        <provider
+            android:name=".GalleryDocumentsProvider"
+            android:authorities="org.community.gallerycamera.documents"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:permission="android.permission.MANAGE_DOCUMENTS">
+            <intent-filter>
+                <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
+            </intent-filter>
+        </provider>
+
+        <provider
+            android:name=".GalleryShareProvider"
+            android:authorities="org.community.gallerycamera.shared"
+            android:exported="false"
+            android:grantUriPermissions="true" />
+
+        <activity
+            android:name=".GalleryPickerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.PICK" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".CaptureActivity"
             android:exported="true"

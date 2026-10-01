@@ -134,16 +134,21 @@ class CaptureActivity : Activity() {
         val outputUri = intent.getParcelableExtra(MediaStore.EXTRA_OUTPUT) as? Uri
 
         if (outputUri != null) {
-            val ok = runCatching {
+            val result = runCatching {
                 file.inputStream().use { input ->
-                    contentResolver.openOutputStream(outputUri, "w")!!.use { output ->
+                    contentResolver.openOutputStream(outputUri, "w")?.use { output ->
                         input.copyTo(output)
-                    }
+                    } ?: error("openOutputStream devolvió null")
                 }
-            }.isSuccess
+            }
 
-            if (!ok) {
-                Toast.makeText(this, "No se pudo escribir la imagen de salida.", Toast.LENGTH_LONG).show()
+            if (result.isFailure) {
+                val error = result.exceptionOrNull()
+                Toast.makeText(
+                    this,
+                    "No se pudo escribir la imagen: ${error?.javaClass?.simpleName}: ${error?.message}",
+                    Toast.LENGTH_LONG
+                ).show()
                 setResult(RESULT_CANCELED)
                 finish()
                 return
